@@ -14,6 +14,8 @@ Usage:
 
 ```
 ./mini_totp_sha1 <base32 secret> [<interval=30>] [<digits=6>] [<decimal counter=now>]
+
+(interval is ignored if the decimal counter is specified)
 ```
 
 Test with: (see [RFC6238](https://datatracker.ietf.org/doc/html/rfc6238#appendix-B))
