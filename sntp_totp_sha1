@@ -1,0 +1,8 @@
+#!/bin/sh
+if [ $# -ne 3 ]; then
+	echo "usage: $0 <base32 secret> <interval> <digits>"
+	exit 1
+fi
+
+$(dirname $0)/mini_totp_sha1 $1 0 $3 $(($($(dirname $0)/sntpclient)/$2))
+

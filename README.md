@@ -25,7 +25,7 @@ $ ./mini_totp_sha1 $(printf 12345678901234567890|base32) 30 8 1
 94287082
 ```
 
-For convenience we include a tiny Simple Network Time Protocol ([RFC4330](https://datatracker.ietf.org/doc/html/rfc4330)) client which echoes UNIX timestamp given by server pool.ntp.org.
+For convenience we include a tiny and rough Simple Network Time Protocol ([RFC4330](https://datatracker.ietf.org/doc/html/rfc4330)) client which echoes UNIX timestamp given by server pool.ntp.org.
 
 SNTP and TOTP are composed by the included shell script `sntp_totp_sha1` :
 
