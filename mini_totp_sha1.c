@@ -91,7 +91,7 @@ int main(int argc, char **argv) {
 		printf("digits must be between 6 and 8\n");
 		return(1);
 	}
-	int digitMod[]={10000000,100000000,1000000000};
+	int digitMod[]={1000000,10000000,100000000};
 	unsigned long long int cntr;
 	if(argc<5)
 		cntr=time(NULL)/interval;
@@ -109,7 +109,9 @@ int main(int argc, char **argv) {
 		| (hmac_result[offset+1] & 0xff) << 16
 		| (hmac_result[offset+2] & 0xff) <<  8
 		| (hmac_result[offset+3] & 0xff) ;
-	printf("%d\n", bin_code % digitMod[digits-6]);
+	char fmt[10];
+	snprintf(fmt,10,"%%0%dd\n",digits);
+	printf(fmt, bin_code % digitMod[digits-6]);
 	return(0);
 }
 

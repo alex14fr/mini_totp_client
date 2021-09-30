@@ -1,4 +1,5 @@
 #!/bin/sh
 set -x
 cc -Wall -Os -std=c99 -o mini_totp_sha1 mini_totp_sha1.c -lcrypto -s
+cc -Wall -Os -std=c99 -D_POSIX_SOURCE -o sntpclient sntpclient.c -s
 
