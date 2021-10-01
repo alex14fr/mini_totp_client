@@ -13,15 +13,15 @@ $ ./compile
 Usage:
 
 ```
-./mini_totp_sha1 <base32 secret> [<interval=30>] [<digits=6>] [<decimal counter=now>]
+./mini_totp_sha1 <base32 secret> [<interval=30>] [<digits=6>] [<UNIX timestamp=now>]
 
-(interval is ignored if the decimal counter is specified)
+To use HOTP codes, set interval to 1 and UNIX timestamp to the HOTP counter.
 ```
 
-Test with: (see [RFC6238](https://datatracker.ietf.org/doc/html/rfc6238#appendix-B))
+Test with: (see [RFC6238 Appendix B](https://datatracker.ietf.org/doc/html/rfc6238#appendix-B))
 
 ```
-$ ./mini_totp_sha1 $(printf 12345678901234567890|base32) 30 8 1
+$ ./mini_totp_sha1 $(printf 12345678901234567890|base32) 30 8 59
 94287082
 ```
 
@@ -30,7 +30,7 @@ For convenience we include a tiny and rough Simple Network Time Protocol ([RFC43
 SNTP and TOTP are composed by the included shell script `sntp_totp_sha1` :
 
 ```
-$ ./sntp_totp_sha $(printf 12345678901234567890|base32) 30 8
+$ ./sntp_totp_sha1 $(printf 12345678901234567890|base32) 30 8
 95142869
 ```
 

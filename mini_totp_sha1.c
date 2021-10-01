@@ -76,7 +76,7 @@ void gethmac(unsigned char *key, int keylen, unsigned char *data, int datalen, u
 
 int main(int argc, char **argv) {
 	if(argc<2) {
-		printf("usage: %s <base32-encoded secret> [<interval=30>] [<digits=6>] [<decimal counter=now>]\n", argv[0]);
+		printf("usage: %s <base32-encoded secret> [<interval=30>] [<digits=6>] [<UNIX timestamp=now>]\n", argv[0]);
 		return(1);
 	}
 	unsigned char secret[20];
@@ -93,10 +93,8 @@ int main(int argc, char **argv) {
 	}
 	int digitMod[]={1000000,10000000,100000000};
 	unsigned long long int cntr;
-	if(argc<5)
-		cntr=time(NULL)/interval;
-	else
-		cntr=atoi(argv[4]);
+	cntr=(argc<5 ? time(NULL) : atoi(argv[4]));
+	cntr=cntr/interval;
 	unsigned char cntrb[8];
 	for(int i=7;i>=0;i--)
 		cntrb[i]=(cntr>>(8*(7-i)))&0xff;

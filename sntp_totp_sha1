@@ -4,5 +4,5 @@ if [ $# -ne 3 ]; then
 	exit 1
 fi
 
-$(dirname $0)/mini_totp_sha1 $1 0 $3 $(($($(dirname $0)/sntpclient)/$2))
+$(dirname $0)/mini_totp_sha1 $1 $2 $3 $($(dirname $0)/sntpclient)
 
