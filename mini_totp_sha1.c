@@ -80,11 +80,11 @@ int main(int argc, char **argv) {
 		return(1);
 	}
 	unsigned char secret[20];
-	if(strlen(argv[1])!=32) {
-		printf("base32-encoded secret must be 32 chars in length\n");
+	if(strlen(argv[1])>32) {
+		printf("base32-encoded secret must be 32 chars max in length\n");
 		return(1);
 	}
-	b32dec((unsigned char *)argv[1],32,secret);
+	int declen=b32dec((unsigned char *)argv[1],strlen(argv[1]),secret);
 	int interval=(argc<3 ? 30 : atoi(argv[2]));
 	int digits=(argc<4 ? 6 : atoi(argv[3]));
 	if(digits<6 || digits>8) {
@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
 	if(argc<5) 
 		printf("counter: %lld\nexpires in : %lld secs\n",cntr,interval*(cntr+1)-time(NULL));
 	unsigned char hmac_result[20];
-	gethmac(secret,20,cntrb,8,hmac_result);
+	gethmac(secret,declen,cntrb,8,hmac_result);
 	unsigned int offset   =  hmac_result[19] & 0xf ;
 	unsigned int bin_code = (hmac_result[offset]  & 0x7f) << 24
 		| (hmac_result[offset+1] & 0xff) << 16

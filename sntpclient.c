@@ -69,7 +69,8 @@ int main(int argc, char **argv) {
 		exit(1);
 	}
 	if(getenv("DEBUG")) write(1,buf,48);
-	int32_t tm=(buf[32]<<24 | buf[33]<<16 | buf[34]<<8 | buf[35])-2208988800;
+	uint32_t tm=((buf[32]<<24) | (buf[33]<<16) | (buf[34]<<8) | buf[35]);
+	tm=tm-2208988800L;
+	printf("%u\n",tm);
 	// (  date -u -d "1900-01-01 00:00" +%s == -2208988800 )
-	printf("%d\n",tm);
 }
