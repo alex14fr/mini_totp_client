@@ -4,11 +4,7 @@
 
 A small HOTP/TOTP SHA1 client written in C99, depending only on libcrypto (OpenSSL)
 
-Compile with:
-
-```
-$ ./compile
-```
+Compile with `make`.
 
 Usage:
 
