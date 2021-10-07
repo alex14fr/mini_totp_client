@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
 	unsigned char cntrb[8];
 	for(int i=7;i>=0;i--)
 		cntrb[i]=(cntr>>(8*(7-i)))&0xff;
-	if(argc<5) 
+//	if(argc<5) 
 		printf("counter: %lld\nexpires in : %lld secs\n",cntr,interval*(cntr+1)-time(NULL));
 	unsigned char hmac_result[20];
 	gethmac(secret,declen,cntrb,8,hmac_result);

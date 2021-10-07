@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 int main(int argc, char **argv) {
 	int sock=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
-	char buf[48];
+	uint8_t buf[48];
 	bzero(&buf,48);
 	buf[0]=(1<<3)|3;
 	struct hostent *host;
@@ -69,8 +69,9 @@ int main(int argc, char **argv) {
 		exit(1);
 	}
 	if(getenv("DEBUG")) write(1,buf,48);
-	uint32_t tm=((buf[32]<<24) + (buf[33]<<16) + (buf[34]<<8) + buf[35]);
+	uint64_t tm=0;
+	tm=0xffffffff & ((buf[32]<<24) | (buf[33]<<16) | (buf[34]<<8) | (buf[35]));
 	tm=tm-2208988800L;
-	printf("%u\n",tm);
+	printf("%lu\n",tm);
 	// (  date -u -d "1900-01-01 00:00" +%s == -2208988800 )
 }
