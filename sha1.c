@@ -1,5 +1,7 @@
 #include <stdint.h>
+#ifdef __TEST
 #include <stdio.h>
+#endif
 
 uint32_t rotateLeft(uint32_t x, uint32_t n) {
   return ((x << n) | (x >> (32 - n)));
