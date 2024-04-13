@@ -2,7 +2,7 @@
 
 (c) 2021 Alexandre Janon <alex14fr at gmail dot com>
 
-A small HOTP/TOTP SHA1 client written in C99, depending only on libcrypto (OpenSSL)
+A small HOTP/TOTP SHA1 client written in C99, without dependencies.
 
 Compile with `make`.
 

@@ -70,9 +70,7 @@ int b32dec(unsigned char *in, int inlen, unsigned char *out) {
 	return(j);
 }
 
-void gethmac(unsigned char *key, int keylen, unsigned char *data, int datalen, unsigned char *out) {
-	HMAC(EVP_sha1(), (void*)key, keylen, data, datalen, out, NULL);
-}
+extern void hmac_sha1(uint8_t *key, uint32_t keylen, uint8_t *data, uint32_t datalen, uint8_t *out);
 
 int main(int argc, char **argv) {
 	if(argc<2) {
@@ -101,7 +99,7 @@ int main(int argc, char **argv) {
 //	if(argc<5) 
 		printf("counter: %lld\nexpires in : %lld secs\n",cntr,interval*(cntr+1)-time(NULL));
 	unsigned char hmac_result[20];
-	gethmac(secret,declen,cntrb,8,hmac_result);
+	hmac_sha1(secret, declen, cntrb, 8, hmac_result);
 	unsigned int offset   =  hmac_result[19] & 0xf ;
 	unsigned int bin_code = (hmac_result[offset]  & 0x7f) << 24
 		| (hmac_result[offset+1] & 0xff) << 16

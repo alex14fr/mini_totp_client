@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <strings.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+//#include <netinet/in6.h>
 #include <netdb.h>
 #include <stdio.h> 
 #include <stdlib.h>
@@ -43,30 +44,22 @@ int main(int argc, char **argv) {
 	uint8_t len;
 	uint8_t buf[256];
 	bzero(buf,256);
-	struct hostent *host;
-	host=gethostbyname(argv[1]);
-	if(!host) {
-		perror("gethostbyname");
+
+	struct sockaddr_in laddr;
+	bzero(&laddr, sizeof(struct sockaddr_in));
+	laddr.sin_family=AF_INET;
+	laddr.sin_port=htons(5350);
+	laddr.sin_addr.s_addr=INADDR_ANY;
+	if(bind(sock,(struct sockaddr*)&laddr,sizeof(struct sockaddr_in))) {
+		perror("bind");
 		exit(1);
 	}
 	struct sockaddr_in saddr;
 	bzero(&saddr, sizeof(struct sockaddr_in));
+	inet_pton(AF_INET,argv[1],&(saddr.sin_addr));
 	saddr.sin_family=AF_INET;
 	saddr.sin_port=htons(5351);
-	saddr.sin_addr.s_addr=*(long *)(host->h_addr_list[0]);
-	struct sockaddr_in my_addr;
-	bzero(&my_addr, sizeof(struct sockaddr_in));
-	my_addr.sin_family=AF_INET;
-	my_addr.sin_port=htons(22222);
-	if(bind(sock,(struct sockaddr *)&my_addr,sizeof(struct sockaddr_in))) {
-		perror("bind");
-		exit(1);
-	}
-	if(connect(sock,(struct sockaddr *)&saddr,sizeof(struct sockaddr_in))!=0) {
-		perror("connect");
-		exit(1);
-	}
-	write(sock,buf,2);
-	read(sock,buf,12);
-	if(getenv("DEBUG")) write(1,buf,12);
+	sendto(sock, buf, 2, 0, &saddr, sizeof(struct sockaddr_in));
+	recvfrom(sock, buf, 12, 0, &laddr, sizeof(struct sockaddr_in));
+	write(1,buf,12);
 }
