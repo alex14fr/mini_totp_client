@@ -30,8 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <openssl/evp.h>
-#include <openssl/hmac.h>
+#include <stdint.h>
 
 unsigned char b32dec_c(unsigned char c) {
 	if(c>='a' && c<='z') c=c+'A'-'a';

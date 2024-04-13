@@ -62,7 +62,7 @@ void sha1(uint8_t *data, uint32_t datalen, uint8_t *out) {
 }
 
 void hmac_sha1(uint8_t *key, uint32_t keylen, uint8_t *data, uint32_t datalen, uint8_t *out) {
-	uint8_t i, j, tmp[128], tmp2[84];
+	uint8_t i, tmp[128], tmp2[84];
 	if(keylen>64 || datalen>64) return;
 	for(i=0; i<keylen; i++) {
 		tmp[i]=tmp2[i]=key[i];

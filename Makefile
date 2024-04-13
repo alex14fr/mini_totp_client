@@ -7,6 +7,8 @@ BINS=sntpclient mini_totp_sha1
 
 all: $(BINS)
 
+mini_totp_sha1: mini_totp_sha1.c sha1.c
+
 clean:
 	rm -f $(BINS)
 
