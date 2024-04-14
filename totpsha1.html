@@ -91,10 +91,10 @@ function b32dec_c(c) {
 function b32dec_8(data, dataoffset, out, offset) {
 	var i, t=0;
 	for(i=0; i<8; i++)
-		t=(t<<5)|b32dec_c(data[dataoffset+i]);
+		t=t*32+b32dec_c(data[dataoffset+i]);
 	for(i=4; i>=0; i--) {
-		out[offset+i]=t & 255;
-		t=t>>>8;
+		out[offset+i]=t%256;
+		t=(t-out[offset+i])/256;
 	}
 }
 
