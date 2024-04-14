@@ -25,26 +25,22 @@ void sha1(uint8_t *data, uint32_t datalen, uint8_t *out) {
 		j--;
 	}
 	for(chnk=0; chnk<chunks; chnk++) {
-		uint32_t a=h[0], b=h[1], c=h[2], d=h[3], e=h[4], f, k, temp, w[80];
+		uint32_t a=h[0], b=h[1], c=h[2], d=h[3], e=h[4], temp, w[80];
 		for(i=0; i<16; i++)
 			w[i]=work[chnk*64+i*4+3] | (work[chnk*64+i*4+2]<<8) | (work[chnk*64+i*4+1]<<16) | (work[chnk*64+i*4]<<24);
 		for(i=16; i<80; i++)
 			w[i]=rotateLeft(w[i-3] ^ w[i-8] ^ w[i-14] ^ w[i-16], 1);
 		for(i=0; i<80; i++) {
+			temp=rotateLeft(a, 5)+e+w[i];
 			if(i<20) {
-				f=(b & c) | ((~b) & d);
-				k=0x5A827999;
+				temp+=((b & c) | ((~b) & d)) + 0x5a827999;
 			} else if(i<40) {
-				f=b ^ c ^ d;
-				k=0x6ED9EBA1;
+				temp+=(b ^ c ^ d) + 0x6ed9eba1;
 			} else if(i<60) {
-				f=(b & c) | (b & d) | (c & d);
-				k=0x8F1BBCDC;
+				temp+=((b & c) | (b & d) | (c & d)) + 0x8f1bbcdc;
 			} else {
-				f=b ^ c ^ d;
-				k=0xCA62C1D6;
+				temp+=(b ^ c ^ d) + 0xca62c1d6;
 			}
-			temp=rotateLeft(a, 5) + f + e + k + w[i];
 			e=d;
 			d=c;
 			c=rotateLeft(b, 30);
@@ -84,10 +80,15 @@ void hmac_sha1(uint8_t *key, uint32_t keylen, uint8_t *data, uint32_t datalen, u
 
 #ifdef __TEST
 int main(int argc, char **argv) {
-	uint8_t z[4]="1234";
+	uint8_t z[3]="abc";
 	uint8_t key[4]="key1";
 	uint8_t out[20];
-	hmac_sha1(key, 4, z, 4, out);
+	/*
+	sha1(z, 3, out);
+	for(int i=0;i<20;i++) printf("%02hhx", out[i]);
+	return(0);
+	*/
+	hmac_sha1(key, 4, z, 3, out);
 	for(int i=0;i<20;i++) printf("%02hhx", out[i]);
 	printf("\n");
 	return(0);
