@@ -20,7 +20,7 @@ void sha1(uint8_t *data, uint32_t datalen, uint8_t *out) {
 	for(; i<datalen+1+padlen; i++) work[i]=0;
 	j=7;
 	while(1) {
-		work[i++]=((8*(uint64_t)datalen) & (0xff << (8*j))) >> (8*j); 
+		work[i++]=((8*(uint64_t)datalen) & ((uint64_t)0xff << (8*j))) >> (8*j); 
 		if(j==0) break;
 		j--;
 	}
